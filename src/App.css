@@ -1,0 +1,118 @@
+.voucher-container {
+  position: relative;
+}
+
+.voucher-container .voucher-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.voucher-container .form-control {
+  padding-right: 40px;
+}
+
+.form-group {
+  margin-bottom: 0.5rem !important;
+}
+
+.form-control {
+  margin-bottom: 0;
+}
+
+.form-label {
+  margin-bottom: 0.1rem !important;
+}
+
+.form-select {
+  margin-bottom: 0.5rem !important;
+}
+
+.disclaimer-text {
+  display: flex !important;
+  justify-content: center !important;
+  padding: 0.1rem;
+  margin: 0.1rem;
+}
+
+.checkbox {
+  padding: 0 8px;
+}
+
+.image-crop-uploader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+.box {
+  border: 1.5px solid red;
+  width: 140px;
+  height: 190px;
+}
+.image-text {
+  background-color: palegoldenrod;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  font-size: 14px;
+}
+.update-img-text {
+  font-size: 10px;
+  color: red;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.editor-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.editor-container input[type="range"] {
+  width: 70%;
+  margin-top: 10px;
+}
+
+.editor-container button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  font-size: 12px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+}
+
+.editor-container button:hover {
+  background-color: #0056b3;
+}
+.delete-btn {
+  cursor: pointer;
+  border-color: #0056b3;
+  color: #0056b3;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 5px 5px;
+  margin-top: 10px;
+}
+.delete-btn:hover {
+  cursor: pointer;
+  background-color: #0056b3;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-top: 10px;
+}
+.delete-btn-pos {
+  display: flex;
+  justify-content: center;
+}
+
