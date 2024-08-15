@@ -80,7 +80,7 @@ const ImageCropUploader: React.FC<ImageCropUploaderProps> = ({
         <div onClick={handleDivClick}>
           <div className="box">
             <div className="image-text">Image</div>
-            <div className="update-img-text">Click to update</div>
+            <div className="update-img-text">Click to update (max 150 kb)</div>
           </div>
         </div>
       )}

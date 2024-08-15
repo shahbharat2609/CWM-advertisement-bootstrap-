@@ -5,359 +5,13 @@ import { IoSearchOutline } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import ImageCropUploader from "./components/common/ImageComponent";
-
-interface CountryType {
-  code: string;
-  label: string;
-  phone: string;
-}
-
-const plans = [
-  // Advertisement Plans
-  {
-    label: "Premium - 1Y Validity",
-    value: "1999",
-    duration: { years: 1 },
-    subscription: "advertisement",
-  },
-  {
-    label: "Platinum - 1Y Validity",
-    value: "999",
-    duration: { years: 1 },
-    subscription: "advertisement",
-  },
-  {
-    label: "Gold - 6M Validity",
-    value: "800",
-    duration: { months: 6 },
-    subscription: "advertisement",
-  },
-  {
-    label: "Silver - 3M Validity",
-    value: "500",
-    duration: { months: 3 },
-    subscription: "advertisement",
-  },
-
-  // Market Place Plans
-  {
-    label: "Premium - 2M Validity",
-    value: "500",
-    duration: { months: 2 },
-    subscription: "marketFeed",
-  },
-  {
-    label: "Standard - 2M Validity",
-    value: "300",
-    duration: { months: 2 },
-    subscription: "marketFeed",
-  },
-
-  // Blaunk Dial Plans
-  {
-    label: "Premium - 1Y Validity",
-    value: "1999",
-    duration: { years: 1 },
-    subscription: "blaunkDial",
-  },
-  {
-    label: "Platinum - 1Y Validity",
-    value: "999",
-    duration: { years: 1 },
-    subscription: "blaunkDial",
-  },
-  {
-    label: "Gold - 6M Validity",
-    value: "800",
-    duration: { months: 6 },
-    subscription: "blaunkDial",
-  },
-  {
-    label: "Silver - 3M Validity",
-    value: "500",
-    duration: { months: 3 },
-    subscription: "blaunkDial",
-  },
-];
-
-const adTypes: Record<string, string[]> = {
-  homePage: ["Business Card", "Slider", "Category", "Deal & Offer", "Explore"],
-  bgt: ["Running ad", "Slider"],
-  tour: ["Deal & Offer", "Explore"],
-  cake: ["Deal & Offer", "Explore"],
-  store: ["Deal & Offer", "Explore"],
-  boutique: [
-    "Women's collection",
-    "Men's collection",
-    "Style on rent",
-    "Deal & Offer",
-    "Explore",
-    "Indian Celebrity Designer",
-    "International Celebrity Designer",
-  ],
-};
-
-const services: Record<string, string[]> = {
-  healthcare: [
-    "Hair Salon",
-    "Spa",
-    "Ayurvedic Spa",
-    "Physiotherapist",
-    "Others",
-  ],
-  artists: [
-    "Henna Artist",
-    "Tattoo Artist",
-    "Makeup Artist",
-    "Nail Artist",
-    "Saree Draper",
-    "Costume Designer",
-    "Sketch Artist",
-    "Portrait",
-    "Sculptor",
-    "Clay Artist",
-    "Others",
-  ],
-  prediction: [
-    "Pandit",
-    "Priest",
-    "Astrologer",
-    "Palmistry",
-    "Vastu",
-    "Tarot Reader",
-    "Numerologist",
-    "Gemologist",
-    "Others",
-  ],
-  transport: [
-    "Packers & Movers",
-    "Driver",
-    "Fleet Agent",
-    "Transporters",
-    "Vehicle on rent",
-    "Custom Agent",
-    "Courier Services",
-    "Logistics",
-    "Cargo Services",
-    "Others",
-  ],
-  mechanic: [
-    "Mechanic by night",
-    "All Engine Service",
-    "Truck Ecm Repair",
-    "Breakdown Services",
-    "Bike Repairs",
-    "Car Repairs",
-    "Car Electrical Service",
-    "Car Battery Repair",
-    "Accident Towing",
-    "Others",
-  ],
-  event: [
-    "Workshops",
-    "Comedy Shows",
-    "Screenings",
-    "Spirituality",
-    "Exhibition",
-    "Meetups",
-    "Kids",
-    "Performances",
-    "Talks",
-    "Festivals",
-    "Conferences",
-    "Sports",
-    "Competitions",
-    "Others",
-  ],
-  eventMgt: [
-    "Inhouse decorator",
-    "Outdoor decorator",
-    "Wedding Planner",
-    "Orchestra",
-    "Balloon Arch",
-    "Balloon Backdrop",
-    "Sound Systems",
-    "Flower Decorators",
-    "Event Organizers",
-    "Birthday Party Organizers",
-    "Tent House",
-    "Costumes on rent",
-    "Office Decorators",
-    "Caterers",
-    "Pre wedding shoot",
-    "Car decoration",
-    "Pandit",
-    "Anchoring Services",
-    "Photographers",
-    "Advertising agencies",
-    "DJ",
-    "Venue Selection",
-    "Others",
-  ],
-  itDevelopers: [
-    "Web Developer",
-    "WordPress Developer",
-    " Software Engineer",
-    "Front-End Developer",
-    "Mobile Application Developer",
-    "Game Developer",
-    "Back-End Developer",
-    "Big Data Developer",
-    "Developmental Operations Engineer",
-    "Data Scientist",
-    "Security Developer",
-    "Graphics Developer",
-    "Language developer",
-    "Desktop developer",
-    "Software developer",
-    "Operating systems developer",
-    "Embedded systems developer",
-    "CRM developer",
-    "Full stack developer",
-    "Software Tester",
-    "MERN Developer",
-    "UI/UX Designer",
-    "Others",
-  ],
-  property: [
-    "Real Estate Agent",
-    "Property Dealers",
-    "Property Developers",
-    "Property Consultants",
-    "Property Valuers",
-    "Property Registration Consultants",
-    "Property Lawyers",
-    "Others",
-  ],
-  tour: [
-    "Flight Booking",
-    "Bus Booking",
-    "Railway Booking",
-    "Hotel Booking",
-    "Domestic Package",
-    "International Package",
-    " Others",
-  ],
-  helper: [
-    "House Cook",
-    "House Maid",
-    "Gardener",
-    "Electrician",
-    "Plumber",
-    "Carpenter",
-    "Others",
-  ],
-  misc: ["Gym", "Music", "Others"],
-};
-
-const products: Record<string, string[]> = {
-  clubAndResort: ["Used membership", "New (Agent)"],
-  property: [
-    "For Sale",
-    "On Lease Office",
-    "On Lease House",
-    "Land commercial",
-    "Land Agriculture",
-    "For Rent",
-    "Fully furnished house",
-    "Semi-furnished House",
-    "Pent house",
-    "Sharing office",
-    "Fully furnished office",
-    "Farm house",
-    "Apartment",
-    "Mall Shop On Rent",
-    "Villa",
-    "Independent House",
-    "Residential Plot",
-    "Bungalow",
-    "Paying Guest",
-  ],
-  appliances: [
-    "Kitchen appliances",
-    "Hotel appliances",
-    "Office appliances",
-    "Electronic appliances",
-    "Others",
-  ],
-  usedVehicle: [
-    "2 wheeler",
-    "Auto",
-    "Car",
-    "Mini Truck",
-    "EV",
-    "Spare parts",
-    "Others",
-  ],
-  d2h: ["Connection", "Service", "Spares", "Others"],
-  misc: ["Books", "Sports", "Gym", "Musical Instruments", "Others"],
-};
-
-const groupOptions: string[] = [
-  "Education",
-  "Accessories",
-  "Agro -Dry fruits",
-  "Agro -Fruits",
-  "Agro -Grains",
-  "Agro -Seeds",
-  "Agro -Spices",
-  "Agro -Veggies",
-  "AGRO-Fertilizer",
-  "Apparel -Kids",
-  "Apparel -Men",
-  "Apparel -Women",
-  "Art and Gallery",
-  "Bathroom Accessories",
-  "Books",
-  "Chemicals",
-  "Cleaners",
-  "Computer",
-  "Construction",
-  "Cosmetic -Women",
-  "Cosmetic -Men",
-  "cosmetics-Kids",
-  "Electrical",
-  "Electronics",
-  "Food and Beverages",
-  "Footwear",
-  "Gardening",
-  "Handmade",
-  "Hardware",
-  "Heavy Tools",
-  "Herbal Nutrition",
-  "Kitchen Appliances",
-  "Kitchen ware",
-  "Machinery",
-  "Packaging",
-  "Plastic Ware",
-  "Sports",
-  "Stationery",
-  "Textile Fabrics",
-  "Threads and Laces",
-  "Toys",
-  "Vehicle Operator",
-  "Jewellers",
-  "IT Developer",
-  "Services",
-  "Tourism",
-];
-
-const countries: readonly CountryType[] = [
-  { code: "IN", label: "India", phone: "91" },
-  { code: "BH", label: "Bahrain", phone: "973" },
-  { code: "BD", label: "Bangladesh", phone: "880" },
-  { code: "BT", label: "Bhutan", phone: "975" },
-  { code: "ID", label: "Indonesia", phone: "62" },
-  { code: "JO", label: "Jordan", phone: "962" },
-  { code: "ðŸ‡²ðŸ‡¾", label: "Malaysia", phone: "60" },
-  { code: "MV", label: "Maldives", phone: "960" },
-  { code: "PH", label: "Philippines", phone: "63" },
-  { code: "SG", label: "Singapore", phone: "65" },
-  { code: "LK", label: "Sri Lanka", phone: "94" },
-  { code: "AE", label: "United Arab Emirates", phone: "971" },
-  { code: "QA", label: "Qatar", phone: "974" },
-  { code: "VN", label: "Vietnam", phone: "84" },
-];
+import {
+  adTypes,
+  groupOptions,
+  plans,
+  products,
+  services,
+} from "./utils/constants";
 
 function App() {
   const [subscription, setSubscription] = useState<string>("advertisement");
@@ -375,22 +29,33 @@ function App() {
   const [group, setGroup] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [price, setPrice] = useState<string>("");
+  const [servicesMenu, setServicesMenu] = useState<string>("");
+  const [productsMenu, setProductsMenu] = useState<string>("");
+  const [acceptTerms, setAcceptTerms] = useState<boolean>(false);
 
   const filteredOptions = plans.filter(
     (plan) => plan.subscription === subscription
   );
-
+  const handleSave = () => {
+    if (!acceptTerms) {
+      alert("Please accept the terms and conditions!");
+      return;
+    }
+    setSave(true);
+    setCancel(false);
+    alert("Details Saved successfully!");
+  };
   useEffect(() => {
-    const defaultPlan = filteredOptions[0]?.value || "";
+    const defaultPlan = filteredOptions[0]?.label || "";
     setSelectedPlan(defaultPlan);
   }, [subscription]);
 
   useEffect(() => {
     if (selectedPlan) {
-      const plan = plans.find((plan) => plan.value === selectedPlan);
+      const plan = plans.find((plan) => plan.label === selectedPlan);
       if (plan) {
         const today = new Date();
-        const renewal = new Date(today);
+        const renewal = new Date();
 
         if (plan.duration.months) {
           renewal.setMonth(today.getMonth() + plan.duration.months);
@@ -426,7 +91,7 @@ function App() {
 
   return (
     <>
-      <Accordion defaultActiveKey="0">
+      <Accordion defaultActiveKey="0" flush>
         {/* //!Subscription */}
         <Accordion.Item eventKey="0">
           <Accordion.Header>Subscription</Accordion.Header>
@@ -439,6 +104,7 @@ function App() {
                     <Form.Select
                       value={subscription}
                       onChange={(event) => setSubscription(event.target.value)}
+                      disabled={save}
                     >
                       <option value="advertisement">Advertisement</option>
                       <option value="blaunkDial">Blaunk Dial</option>
@@ -451,10 +117,13 @@ function App() {
                     <Form.Label>Plan</Form.Label>
                     <Form.Select
                       value={selectedPlan}
-                      onChange={(event) => setSelectedPlan(event.target.value)}
+                      onChange={(event) => {
+                        setSelectedPlan(event.target.value);
+                      }}
+                      disabled={save}
                     >
                       {filteredOptions.map((plan) => (
-                        <option key={plan.value} value={plan.value}>
+                        <option key={plan.label} value={plan.label}>
                           {plan.label}
                         </option>
                       ))}
@@ -495,6 +164,7 @@ function App() {
                         type="text"
                         value={voucherCode}
                         onChange={(event) => setVoucherCode(event.target.value)}
+                        disabled={save}
                       />
                       <IoSearchOutline
                         className="voucher-icon"
@@ -524,111 +194,6 @@ function App() {
         {subscription === "advertisement" && (
           <Accordion.Item eventKey="1">
             <Accordion.Header>Advertisement</Accordion.Header>
-            <Accordion.Body>
-              <Container>
-                <Row>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <Form.Group controlId="countrySelect">
-                      <Form.Label>Country</Form.Label>
-                      <Form.Control as="select">
-                        {countries.map((country) => (
-                          <option key={country.code} value={country.code}>
-                            {country.label}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </Form.Group>
-                  </Col>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <Form.Group controlId="typeSelect">
-                      <Form.Label>Type</Form.Label>
-                      <Form.Select
-                        value={adType || ""}
-                        onChange={(event) => setAdType(event.target.value)}
-                      >
-                        <option value="">Select a type</option>
-                        <option value="homePage">Home Page</option>
-                        <option value="bgt">BGT</option>
-                        <option value="tour">Tour</option>
-                        <option value="cake">Cake</option>
-                        <option value="store">Store</option>
-                        <option value="boutique">Boutique</option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <Form.Group controlId="selectAds">
-                      <Form.Label>Select Ads</Form.Label>
-                      <Form.Select>
-                        {adTypes[adType]?.map((type) => (
-                          <option key={type} value={type}>
-                            {type}
-                          </option>
-                        )) || <option value="">No options available</option>}
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <Form.Group controlId="groupSelect">
-                      <Form.Label>Group</Form.Label>
-                      <Form.Select
-                        value={category}
-                        onChange={(event) => setCategory(event.target.value)}
-                      >
-                        <option value="" disabled>
-                          Select a group
-                        </option>
-                        {groupOptions.map((group, index) => (
-                          <option key={index} value={group}>
-                            {group}
-                          </option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <Form.Group controlId="articleInput">
-                      <Form.Label>Article</Form.Label>
-                      <Form.Control type="text" />
-                    </Form.Group>
-                  </Col>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <Form.Group controlId="zipCodeInput">
-                      <Form.Label>Zip code/Pincode</Form.Label>
-                      <Form.Control
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={7}
-                        onInput={(e) => {
-                          const target = e.target as HTMLInputElement;
-                          target.value = target.value.replace(/[^0-9]/g, "");
-                        }}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <Form.Group controlId="areaInput">
-                      <Form.Label>Area</Form.Label>
-                      <Form.Control type="text" inputMode="numeric" />
-                    </Form.Group>
-                  </Col>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <ImageCropUploader
-                      save={save}
-                      cancel={cancel}
-                      setCancel={setCancel}
-                    />
-                  </Col>
-                </Row>
-              </Container>
-            </Accordion.Body>
-          </Accordion.Item>
-        )}
-
-        {/* //!Blaunk Dial */}
-        {subscription === "blaunkDial" && (
-          <Accordion.Item eventKey="2">
-            <Accordion.Header>Blaunk Dial</Accordion.Header>
             <Accordion.Body>
               <Container>
                 <Row>
@@ -670,6 +235,153 @@ function App() {
                       selected={selectedFlag}
                       onSelect={(code) => setSelectedFlag(code)}
                       placeholder="Select Country"
+                      disabled={save}
+                    />
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                    <Form.Group controlId="typeSelect">
+                      <Form.Label>Type</Form.Label>
+                      <Form.Select
+                        value={adType || ""}
+                        onChange={(event) => setAdType(event.target.value)}
+                        disabled={save}
+                      >
+                        <option value="">Select a type</option>
+                        <option value="homePage">Home Page</option>
+                        <option value="bgt">BGT</option>
+                        <option value="tour">Tour</option>
+                        <option value="cake">Cake</option>
+                        <option value="store">Store</option>
+                        <option value="boutique">Boutique</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                    <Form.Group controlId="selectAds">
+                      <Form.Label>Select Ads</Form.Label>
+                      <Form.Select disabled={save}>
+                        {adTypes[adType]?.map((type) => (
+                          <option key={type} value={type}>
+                            {type}
+                          </option>
+                        )) || <option value="">No options available</option>}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                    <Form.Group controlId="groupSelect">
+                      <Form.Label>Group</Form.Label>
+                      <Form.Select
+                        value={category}
+                        onChange={(event) => setCategory(event.target.value)}
+                        disabled={save}
+                      >
+                        <option value="" disabled>
+                          Select a group
+                        </option>
+                        {groupOptions.map((group, index) => (
+                          <option key={index} value={group}>
+                            {group}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                    <Form.Group controlId="articleInput">
+                      <Form.Label>Article</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Max 50 characters"
+                        maxLength={50}
+                        disabled={save}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                    <Form.Group controlId="zipCodeInput">
+                      <Form.Label>Zip code/Pincode</Form.Label>
+                      <Form.Control
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={7}
+                        onInput={(e) => {
+                          const target = e.target as HTMLInputElement;
+                          target.value = target.value.replace(/[^0-9]/g, "");
+                        }}
+                        disabled={save}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                    <Form.Group controlId="areaInput">
+                      <Form.Label>Area</Form.Label>
+                      <Form.Control
+                        type="text"
+                        inputMode="numeric"
+                        disabled={save}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                    <ImageCropUploader
+                      save={save}
+                      cancel={cancel}
+                      setCancel={setCancel}
+                    />
+                  </Col>
+                </Row>
+              </Container>
+            </Accordion.Body>
+          </Accordion.Item>
+        )}
+
+        {/* //!Blaunk Dial */}
+        {subscription === "blaunkDial" && (
+          <Accordion.Item eventKey="2">
+            <Accordion.Header>Blaunk Dial</Accordion.Header>
+            <Accordion.Body>
+              <Container>
+                <Row>
+                  <Col lg={3} md={4} sm={6} xs={12}>
+                    <Form.Label>Country</Form.Label>
+                    <ReactFlagsSelect
+                      countries={[
+                        "IN",
+                        "BH",
+                        "BD",
+                        "BT",
+                        "ID",
+                        "JO",
+                        "MY",
+                        "MV",
+                        "PH",
+                        "SG",
+                        "LK",
+                        "AE",
+                        "QA",
+                        "VN",
+                      ]}
+                      customLabels={{
+                        IN: "India",
+                        BH: "Bahrain",
+                        BD: "Bangladesh",
+                        BT: "Bhutan",
+                        ID: "Indonesia",
+                        JO: "Jordan",
+                        MY: "Malaysia",
+                        MV: "Maldives",
+                        PH: "Philippines",
+                        SG: "Singapore",
+                        LK: "Sri Lanka",
+                        AE: "United Arab Emirates",
+                        QA: "Qatar",
+                        VN: "Vietnam",
+                      }}
+                      selected={selectedFlag}
+                      onSelect={(code) => setSelectedFlag(code)}
+                      placeholder="Select Country"
+                      disabled={save}
                     />
                   </Col>
                   <Col lg={3} md={4} sm={6} xs={12}>
@@ -693,6 +405,7 @@ function App() {
                       <Form.Select
                         value={category || ""}
                         onChange={(event) => setCategory(event.target.value)}
+                        disabled={save}
                       >
                         <option value="">Select a category</option>
                         <option value="healthcare">Healthcare</option>
@@ -713,7 +426,11 @@ function App() {
                   <Col lg={3} md={4} sm={6} xs={12}>
                     <Form.Group controlId="servicesSelect">
                       <Form.Label>Services</Form.Label>
-                      <Form.Select>
+                      <Form.Select
+                        value={servicesMenu}
+                        onChange={(e) => setServicesMenu(e.target.value)}
+                        disabled={save}
+                      >
                         {services[category]?.map((type) => (
                           <option key={type} value={type}>
                             {type}
@@ -722,7 +439,16 @@ function App() {
                       </Form.Select>
                     </Form.Group>
                   </Col>
-                  <Col lg={3} md={4} sm={6} xs={12}></Col>
+                  {servicesMenu === "Others" && (
+                    <Col lg={2} md={4} sm={6} xs={12}>
+                      <Form.Label>Others</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter details"
+                        disabled={save}
+                      />
+                    </Col>
+                  )}
                 </Row>
               </Container>
             </Accordion.Body>
@@ -735,17 +461,46 @@ function App() {
             <Accordion.Body>
               <Container>
                 <Row>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <Form.Group controlId="countrySelect">
-                      <Form.Label>Country</Form.Label>
-                      <Form.Control as="select">
-                        {countries.map((country) => (
-                          <option key={country.code} value={country.code}>
-                            {country.label}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </Form.Group>
+                  <Col lg={2} md={4} sm={6} xs={12}>
+                    <Form.Label>Country</Form.Label>
+                    <ReactFlagsSelect
+                      countries={[
+                        "IN",
+                        "BH",
+                        "BD",
+                        "BT",
+                        "ID",
+                        "JO",
+                        "MY",
+                        "MV",
+                        "PH",
+                        "SG",
+                        "LK",
+                        "AE",
+                        "QA",
+                        "VN",
+                      ]}
+                      customLabels={{
+                        IN: "India",
+                        BH: "Bahrain",
+                        BD: "Bangladesh",
+                        BT: "Bhutan",
+                        ID: "Indonesia",
+                        JO: "Jordan",
+                        MY: "Malaysia",
+                        MV: "Maldives",
+                        PH: "Philippines",
+                        SG: "Singapore",
+                        LK: "Sri Lanka",
+                        AE: "United Arab Emirates",
+                        QA: "Qatar",
+                        VN: "Vietnam",
+                      }}
+                      selected={selectedFlag}
+                      onSelect={(code) => setSelectedFlag(code)}
+                      placeholder="Select Country"
+                      disabled={save}
+                    />
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
                     <Form.Group controlId="groupSelect">
@@ -753,6 +508,7 @@ function App() {
                       <Form.Select
                         value={group || ""}
                         onChange={(event) => setGroup(event.target.value)}
+                        disabled={save}
                       >
                         <option value="">Select a type</option>
                         <option value="clubAndResort">Club & Resort</option>
@@ -767,7 +523,11 @@ function App() {
                   <Col lg={2} md={3} sm={6} xs={12}>
                     <Form.Group controlId="selectAds">
                       <Form.Label>Products</Form.Label>
-                      <Form.Select>
+                      <Form.Select
+                        value={productsMenu}
+                        onChange={(e) => setProductsMenu(e.target.value)}
+                        disabled={save}
+                      >
                         {products[group]?.map((type) => (
                           <option key={type} value={type}>
                             {type}
@@ -776,6 +536,16 @@ function App() {
                       </Form.Select>
                     </Form.Group>
                   </Col>
+                  {productsMenu === "Others" && (
+                    <Col lg={2} md={4} sm={6} xs={12}>
+                      <Form.Label>Others</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter details"
+                        disabled={save}
+                      />
+                    </Col>
+                  )}
                   <Col lg={2} md={3} sm={6} xs={12}>
                     <Form.Group controlId="titleField">
                       <Form.Label>Title</Form.Label>
@@ -783,16 +553,15 @@ function App() {
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Max 25 characters"
                         maxLength={25}
+                        disabled={save}
                       />
-                      <Form.Text className="text-muted">
-                        Max 25 characters
-                      </Form.Text>
                     </Form.Group>
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12}>
                     <Form.Label>Terms</Form.Label>
-                    <Form.Select>
+                    <Form.Select disabled={save}>
                       <option value="negotiable">Negotiable</option>
                       <option value="nonNegotiable">Non-negotiable</option>
                       <option value="priceOnRequest">Price on request</option>
@@ -800,7 +569,7 @@ function App() {
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12}>
                     <Form.Label>Condition</Form.Label>
-                    <Form.Select>
+                    <Form.Select disabled={save}>
                       <option value="unused">Unused</option>
                       <option value="used">Used</option>
                       <option value="organic">Organic</option>
@@ -813,6 +582,7 @@ function App() {
                       type="text"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
+                      disabled={save}
                     />
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
@@ -826,19 +596,28 @@ function App() {
                           const target = e.target as HTMLInputElement;
                           target.value = target.value.replace(/[^0-9]/g, "");
                         }}
+                        disabled={save}
                       />
                     </Form.Group>
                   </Col>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                  <Col lg={2} md={3} sm={6} xs={12}>
                     <Form.Group controlId="areaInput">
                       <Form.Label>Area</Form.Label>
-                      <Form.Control type="text" inputMode="numeric" />
+                      <Form.Control
+                        type="text"
+                        inputMode="numeric"
+                        disabled={save}
+                      />
                     </Form.Group>
                   </Col>
-                  <Col lg={6} md={3} sm={6} xs={12}>
+                  <Col lg={4} md={3} sm={6} xs={12}>
                     <Form.Label>Description</Form.Label>
-                    <Form.Control as="textarea" maxLength={100} />
-                    <Form.Text>Max 25 words</Form.Text>
+                    <Form.Control
+                      as="textarea"
+                      maxLength={150}
+                      placeholder="Max 150 characters"
+                      disabled={save}
+                    />
                   </Col>
                   {[1, 2, 3].map((index) => (
                     <Col
@@ -890,8 +669,13 @@ function App() {
               & Taxes.
             </p>
             <p className="disclaimer-text">
-              <Form.Check className="checkbox" />I have read and agree to all
-              the terms and condition of B2B Blaunk trade policy.
+              <Form.Check
+                className="checkbox"
+                checked={acceptTerms}
+                onChange={(e) => setAcceptTerms(e.target.checked)}
+              />
+              I have read and agree to all the terms and condition of B2B Blaunk
+              trade policy.
             </p>
           </Accordion.Body>
         </Accordion.Item>
@@ -902,18 +686,14 @@ function App() {
             <Button variant="secondary" className="mx-2">
               Cancel
             </Button>
-            <Button
-              variant="primary"
-              className="mx-2"
-              onClick={() => {
-                setSave(true);
-                setCancel(false);
-                alert("Details Saved successfully!");
-              }}
-            >
+            <Button variant="primary" className="mx-2" onClick={handleSave}>
               Save
             </Button>
-            <Button variant="warning" className="mx-2">
+            <Button
+              variant="warning"
+              className="mx-2"
+              onClick={() => setSave(false)}
+            >
               Edit
             </Button>
             <Button variant="success" className="mx-2">
