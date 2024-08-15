@@ -27,11 +27,17 @@ function App() {
   const [save, setSave] = useState<boolean>(false);
   const [cancel, setCancel] = useState<boolean>(false);
   const [group, setGroup] = useState<string>("");
+  const [terms, setTerms] = useState<string>("");
+  const [condition, setCondition] = useState<string>("");
+  const [article, setArticle] = useState<string>("");
+  const [pincode, setPincode] = useState<string>("");
+  const [area, setArea] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [servicesMenu, setServicesMenu] = useState<string>("");
   const [productsMenu, setProductsMenu] = useState<string>("");
   const [acceptTerms, setAcceptTerms] = useState<boolean>(false);
+  const [description, setDescription] = useState<string>("");
 
   const filteredOptions = plans.filter(
     (plan) => plan.subscription === subscription
@@ -45,6 +51,36 @@ function App() {
     setCancel(false);
     alert("Details Saved successfully!");
   };
+
+  const handleCancel = () => {
+    const result = confirm(
+      "You will lose all the changes. Do you want to continue?"
+    );
+    if (result) {
+      setSave(false);
+      setSubscription("advertisement");
+      setSelectedPlan("");
+      setVoucherCode("");
+      setRebate("");
+      setSelectedFlag("");
+      setCategory("");
+      setServicesMenu("");
+      setProductsMenu("");
+      setAcceptTerms(false);
+      setAdType("");
+      setArticle("");
+      setPincode("");
+      setArea("");
+      setCancel(true);
+      setGroup("");
+      setTitle("");
+      setTerms("");
+      setCondition("");
+      setPrice("");
+      setDescription("");
+    }
+  };
+
   useEffect(() => {
     const defaultPlan = filteredOptions[0]?.label || "";
     setSelectedPlan(defaultPlan);
@@ -295,6 +331,8 @@ function App() {
                         placeholder="Max 50 characters"
                         maxLength={50}
                         disabled={save}
+                        value={article}
+                        onChange={(event) => setArticle(event.target.value)}
                       />
                     </Form.Group>
                   </Col>
@@ -310,6 +348,8 @@ function App() {
                           target.value = target.value.replace(/[^0-9]/g, "");
                         }}
                         disabled={save}
+                        value={pincode}
+                        onChange={(event) => setPincode(event.target.value)}
                       />
                     </Form.Group>
                   </Col>
@@ -320,6 +360,8 @@ function App() {
                         type="text"
                         inputMode="numeric"
                         disabled={save}
+                        value={area}
+                        onChange={(event) => setArea(event.target.value)}
                       />
                     </Form.Group>
                   </Col>
@@ -343,7 +385,7 @@ function App() {
             <Accordion.Body>
               <Container>
                 <Row>
-                  <Col lg={3} md={4} sm={6} xs={12}>
+                  <Col lg={2} md={4} sm={6} xs={12}>
                     <Form.Label>Country</Form.Label>
                     <ReactFlagsSelect
                       countries={[
@@ -384,22 +426,24 @@ function App() {
                       disabled={save}
                     />
                   </Col>
-                  <Col lg={3} md={4} sm={6} xs={12}>
+                  <Col lg={2} md={4} sm={6} xs={12}>
                     <Form.Group controlId="zipCodeInput">
                       <Form.Label>Zip code/Pincode</Form.Label>
                       <Form.Control
                         type="text"
                         inputMode="numeric"
                         maxLength={7}
+                        value={pincode}
                         onInput={(e) => {
                           const target = e.target as HTMLInputElement;
                           target.value = target.value.replace(/[^0-9]/g, "");
                         }}
+                        onChange={(event) => setPincode(event.target.value)}
                         disabled={save}
                       />
                     </Form.Group>
                   </Col>
-                  <Col lg={3} md={4} sm={6} xs={12}>
+                  <Col lg={2} md={4} sm={6} xs={12}>
                     <Form.Group controlId="categorySelect">
                       <Form.Label>Category</Form.Label>
                       <Form.Select
@@ -423,7 +467,7 @@ function App() {
                       </Form.Select>
                     </Form.Group>
                   </Col>
-                  <Col lg={3} md={4} sm={6} xs={12}>
+                  <Col lg={2} md={4} sm={6} xs={12}>
                     <Form.Group controlId="servicesSelect">
                       <Form.Label>Services</Form.Label>
                       <Form.Select
@@ -444,8 +488,9 @@ function App() {
                       <Form.Label>Others</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter details"
+                        placeholder="Max 15 characters"
                         disabled={save}
+                        maxLength={15}
                       />
                     </Col>
                   )}
@@ -541,8 +586,9 @@ function App() {
                       <Form.Label>Others</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter details"
+                        placeholder="Max 15 characters"
                         disabled={save}
+                        maxLength={15}
                       />
                     </Col>
                   )}
@@ -561,7 +607,14 @@ function App() {
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12}>
                     <Form.Label>Terms</Form.Label>
-                    <Form.Select disabled={save}>
+                    <Form.Select
+                      disabled={save}
+                      value={terms}
+                      onChange={(e) => setTerms(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Select terms
+                      </option>
                       <option value="negotiable">Negotiable</option>
                       <option value="nonNegotiable">Non-negotiable</option>
                       <option value="priceOnRequest">Price on request</option>
@@ -569,7 +622,14 @@ function App() {
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12}>
                     <Form.Label>Condition</Form.Label>
-                    <Form.Select disabled={save}>
+                    <Form.Select
+                      disabled={save}
+                      value={condition}
+                      onChange={(e) => setCondition(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Select Condition
+                      </option>
                       <option value="unused">Unused</option>
                       <option value="used">Used</option>
                       <option value="organic">Organic</option>
@@ -581,6 +641,11 @@ function App() {
                     <Form.Control
                       type="text"
                       value={price}
+                      inputMode="numeric"
+                      onInput={(e) => {
+                        const target = e.target as HTMLInputElement;
+                        target.value = target.value.replace(/[^0-9]/g, "");
+                      }}
                       onChange={(e) => setPrice(e.target.value)}
                       disabled={save}
                     />
@@ -597,6 +662,8 @@ function App() {
                           target.value = target.value.replace(/[^0-9]/g, "");
                         }}
                         disabled={save}
+                        value={pincode}
+                        onChange={(e) => setPincode(e.target.value)}
                       />
                     </Form.Group>
                   </Col>
@@ -607,6 +674,8 @@ function App() {
                         type="text"
                         inputMode="numeric"
                         disabled={save}
+                        value={area}
+                        onChange={(e) => setArea(e.target.value)}
                       />
                     </Form.Group>
                   </Col>
@@ -617,6 +686,8 @@ function App() {
                       maxLength={150}
                       placeholder="Max 150 characters"
                       disabled={save}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
                     />
                   </Col>
                   {[1, 2, 3].map((index) => (
@@ -683,10 +754,10 @@ function App() {
       <Container className="text-center mt-4">
         <Row className="justify-content-center">
           <Col xs="auto">
-            <Button variant="secondary" className="mx-2">
+            <Button variant="danger" className="mx-2" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button variant="primary" className="mx-2" onClick={handleSave}>
+            <Button variant="success" className="mx-2" onClick={handleSave}>
               Save
             </Button>
             <Button
@@ -696,7 +767,7 @@ function App() {
             >
               Edit
             </Button>
-            <Button variant="success" className="mx-2">
+            <Button variant="primary" className="mx-2">
               Payment
             </Button>
           </Col>
