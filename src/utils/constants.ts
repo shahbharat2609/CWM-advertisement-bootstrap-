@@ -1,4 +1,3 @@
-
 const plans = [
   // Advertisement Plans
   {
@@ -72,7 +71,7 @@ const adTypes: Record<string, string[]> = {
   bgt: ["Running ad", "Slider"],
   tour: ["Deal & Offer", "Explore"],
   cake: ["Deal & Offer", "Explore"],
-  store: ["Deal & Offer", "Explore"],
+  store: ["Deal & Offer", "Explore", "Business Card"],
   boutique: [
     "Women's collection",
     "Men's collection",
@@ -89,6 +88,7 @@ const services: Record<string, string[]> = {
     "Hair Salon",
     "Spa",
     "Ayurvedic Spa",
+    "Chemist",
     "Physiotherapist",
     "Others",
   ],
@@ -181,10 +181,37 @@ const services: Record<string, string[]> = {
     "Venue Selection",
     "Others",
   ],
+  financial: [
+    "Advisor",
+    "Risk management",
+    "Portfolio management",
+    "Financial planning",
+    "Financial Consultation",
+    "Insurance agent",
+    "Others",
+  ],
+  repair: [
+    "Commercial",
+    "Installation",
+    "Repair and maintenance",
+    "Cleaning ",
+    "Emergency service",
+    "Appliance repair service",
+    "Others",
+  ],
+  automobile: [
+    "Repair and maintenance",
+    "Washing and cleaning",
+    "Vehicle replacement ",
+    "Vehicle modification",
+    "Vehicle inspection",
+    "Vehicle scrap",
+    "Others",
+  ],
   itDevelopers: [
     "Web Developer",
     "WordPress Developer",
-    " Software Engineer",
+    "Software Engineer",
     "Front-End Developer",
     "Mobile Application Developer",
     "Game Developer",
@@ -328,6 +355,5 @@ const groupOptions: string[] = [
   "Services",
   "Tourism",
 ];
-
 
 export { plans, adTypes, services, products, groupOptions };

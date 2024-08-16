@@ -7,7 +7,7 @@ import ReactFlagsSelect from "react-flags-select";
 import ImageCropUploader from "./components/common/ImageComponent";
 import {
   adTypes,
-  groupOptions,
+  // groupOptions,
   plans,
   products,
   services,
@@ -29,7 +29,7 @@ function App() {
   const [group, setGroup] = useState<string>("");
   const [terms, setTerms] = useState<string>("");
   const [condition, setCondition] = useState<string>("");
-  const [article, setArticle] = useState<string>("");
+  // const [article, setArticle] = useState<string>("");
   const [pincode, setPincode] = useState<string>("");
   const [area, setArea] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -68,7 +68,7 @@ function App() {
       setProductsMenu("");
       setAcceptTerms(false);
       setAdType("");
-      setArticle("");
+      // setArticle("");
       setPincode("");
       setArea("");
       setCancel(true);
@@ -80,7 +80,29 @@ function App() {
       setDescription("");
     }
   };
+  const handleVoucherCodeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const voucherCode = event.target.value;
+    setVoucherCode(voucherCode.charAt(0).toUpperCase() + voucherCode.slice(1));
+  };
 
+  const handleAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const area = event.target.value;
+    setArea(area.charAt(0).toUpperCase() + area.slice(1));
+  };
+
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const description = event.target.value;
+    setDescription(description.charAt(0).toUpperCase() + description.slice(1));
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const title = event.target.value;
+    setTitle(title.charAt(0).toUpperCase() + title.slice(1));
+  };
   useEffect(() => {
     const defaultPlan = filteredOptions[0]?.label || "";
     setSelectedPlan(defaultPlan);
@@ -199,7 +221,7 @@ function App() {
                       <Form.Control
                         type="text"
                         value={voucherCode}
-                        onChange={(event) => setVoucherCode(event.target.value)}
+                        onChange={handleVoucherCodeChange}
                         disabled={save}
                       />
                       <IoSearchOutline
@@ -304,7 +326,7 @@ function App() {
                       </Form.Select>
                     </Form.Group>
                   </Col>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                  {/* <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
                     <Form.Group controlId="groupSelect">
                       <Form.Label>Group</Form.Label>
                       <Form.Select
@@ -322,8 +344,8 @@ function App() {
                         ))}
                       </Form.Select>
                     </Form.Group>
-                  </Col>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                  </Col> */}
+                  {/* <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
                     <Form.Group controlId="articleInput">
                       <Form.Label>Article</Form.Label>
                       <Form.Control
@@ -335,7 +357,7 @@ function App() {
                         onChange={(event) => setArticle(event.target.value)}
                       />
                     </Form.Group>
-                  </Col>
+                  </Col> */}
                   <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
                     <Form.Group controlId="zipCodeInput">
                       <Form.Label>Zip code/Pincode</Form.Label>
@@ -353,7 +375,7 @@ function App() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                  {/* <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
                     <Form.Group controlId="areaInput">
                       <Form.Label>Area</Form.Label>
                       <Form.Control
@@ -364,7 +386,7 @@ function App() {
                         onChange={(event) => setArea(event.target.value)}
                       />
                     </Form.Group>
-                  </Col>
+                  </Col> */}
                   <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
                     <ImageCropUploader
                       save={save}
@@ -457,6 +479,9 @@ function App() {
                         <option value="prediction">Prediction Forecast</option>
                         <option value="transport">Transport</option>
                         <option value="mechanic">Mechanic</option>
+                        <option value="financial">Financial</option>
+                        <option value="repair">Repair</option>
+                        <option value="automobile">Automobile</option>
                         <option value="itDevelopers">IT Developers</option>
                         <option value="property">Property</option>
                         <option value="tour">Tour Operator</option>
@@ -598,7 +623,7 @@ function App() {
                       <Form.Control
                         type="text"
                         value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                        onChange={handleTitleChange}
                         placeholder="Max 25 characters"
                         maxLength={25}
                         disabled={save}
@@ -634,6 +659,7 @@ function App() {
                       <option value="used">Used</option>
                       <option value="organic">Organic</option>
                       <option value="refurbished">Refurbished</option>
+                      <option value="new">New (Packed)</option>
                     </Form.Select>
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12}>
@@ -672,10 +698,9 @@ function App() {
                       <Form.Label>Area</Form.Label>
                       <Form.Control
                         type="text"
-                        inputMode="numeric"
                         disabled={save}
                         value={area}
-                        onChange={(e) => setArea(e.target.value)}
+                        onChange={handleAreaChange}
                       />
                     </Form.Group>
                   </Col>
@@ -683,11 +708,11 @@ function App() {
                     <Form.Label>Description</Form.Label>
                     <Form.Control
                       as="textarea"
-                      maxLength={150}
-                      placeholder="Max 150 characters"
+                      maxLength={100}
+                      placeholder="Max 100 characters"
                       disabled={save}
                       value={description}
-                      onChange={(e) => setDescription(e.target.value)}
+                      onChange={handleDescriptionChange}
                     />
                   </Col>
                   {[1, 2, 3].map((index) => (
@@ -738,6 +763,14 @@ function App() {
             <p className="disclaimer-text">
               Listing fees is Non - Refundable and Inclusive of all Govt Levies
               & Taxes.
+            </p>
+            <p className="disclaimer-text">
+              If seller get reported for twice, Sellers'
+              profile/listing/advertisement will be suspended for 2 months.
+            </p>
+            <p className="disclaimer-text">
+              If Seller get reported for more than 2 times, Sellers'
+              profile/listing/advertisement will be blocked permanently.
             </p>
             <p className="disclaimer-text">
               <Form.Check
