@@ -64,6 +64,25 @@ const plans = [
     duration: { months: 3 },
     subscription: "blaunkDial",
   },
+  // Boutique Plans
+  {
+    label: "Premium - 1Y Validity",
+    value: "2500",
+    duration: { years: 1 },
+    subscription: "boutique",
+  },
+  {
+    label: "Standard - 1Y Validity",
+    value: "1800",
+    duration: { years: 1 },
+    subscription: "boutique",
+  },
+  {
+    label: "Basic - 5M Validity",
+    value: "1000",
+    duration: { months: 5 },
+    subscription: "boutique",
+  },
 ];
 
 const adTypes: Record<string, string[]> = {
@@ -357,3 +376,4 @@ const groupOptions: string[] = [
 ];
 
 export { plans, adTypes, services, products, groupOptions };
+  

@@ -29,7 +29,6 @@ function App() {
   const [group, setGroup] = useState<string>("");
   const [terms, setTerms] = useState<string>("");
   const [condition, setCondition] = useState<string>("");
-  // const [article, setArticle] = useState<string>("");
   const [pincode, setPincode] = useState<string>("");
   const [area, setArea] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -38,6 +37,7 @@ function App() {
   const [productsMenu, setProductsMenu] = useState<string>("");
   const [acceptTerms, setAcceptTerms] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
+  const [article, setArticle] = useState<string>("");
 
   const filteredOptions = plans.filter(
     (plan) => plan.subscription === subscription
@@ -68,7 +68,7 @@ function App() {
       setProductsMenu("");
       setAcceptTerms(false);
       setAdType("");
-      // setArticle("");
+      setArticle("");
       setPincode("");
       setArea("");
       setCancel(true);
@@ -150,7 +150,7 @@ function App() {
   return (
     <>
       <Accordion defaultActiveKey="0" flush>
-        {/* //!Subscription */}
+        {/* //!Subscription  */}
         <Accordion.Item eventKey="0">
           <Accordion.Header>Subscription</Accordion.Header>
           <Accordion.Body>
@@ -167,6 +167,7 @@ function App() {
                       <option value="advertisement">Advertisement</option>
                       <option value="blaunkDial">Blaunk Dial</option>
                       <option value="marketFeed">Market Feed</option>
+                      <option value="boutique">Boutique</option>
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -326,38 +327,6 @@ function App() {
                       </Form.Select>
                     </Form.Group>
                   </Col>
-                  {/* <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <Form.Group controlId="groupSelect">
-                      <Form.Label>Group</Form.Label>
-                      <Form.Select
-                        value={category}
-                        onChange={(event) => setCategory(event.target.value)}
-                        disabled={save}
-                      >
-                        <option value="" disabled>
-                          Select a group
-                        </option>
-                        {groupOptions.map((group, index) => (
-                          <option key={index} value={group}>
-                            {group}
-                          </option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                  </Col> */}
-                  {/* <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <Form.Group controlId="articleInput">
-                      <Form.Label>Article</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Max 50 characters"
-                        maxLength={50}
-                        disabled={save}
-                        value={article}
-                        onChange={(event) => setArticle(event.target.value)}
-                      />
-                    </Form.Group>
-                  </Col> */}
                   <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
                     <Form.Group controlId="zipCodeInput">
                       <Form.Label>Zip code/Pincode</Form.Label>
@@ -375,18 +344,6 @@ function App() {
                       />
                     </Form.Group>
                   </Col>
-                  {/* <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
-                    <Form.Group controlId="areaInput">
-                      <Form.Label>Area</Form.Label>
-                      <Form.Control
-                        type="text"
-                        inputMode="numeric"
-                        disabled={save}
-                        value={area}
-                        onChange={(event) => setArea(event.target.value)}
-                      />
-                    </Form.Group>
-                  </Col> */}
                   <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
                     <ImageCropUploader
                       save={save}
@@ -708,8 +665,202 @@ function App() {
                     <Form.Label>Description</Form.Label>
                     <Form.Control
                       as="textarea"
-                      maxLength={100}
-                      placeholder="Max 100 characters"
+                      maxLength={145}
+                      placeholder="Max 145 characters"
+                      disabled={save}
+                      value={description}
+                      onChange={handleDescriptionChange}
+                    />
+                  </Col>
+                  {[1, 2, 3].map((index) => (
+                    <Col
+                      lg={4}
+                      md={4}
+                      sm={12}
+                      xs={12}
+                      key={index}
+                      className="mb-3"
+                    >
+                      <ImageCropUploader
+                        save={save}
+                        cancel={cancel}
+                        setCancel={setCancel}
+                      />
+                    </Col>
+                  ))}
+                </Row>
+              </Container>
+            </Accordion.Body>
+          </Accordion.Item>
+        )}
+        {/* //!Boutique */}
+        {subscription === "boutique" && (
+          <Accordion.Item eventKey="3">
+            <Accordion.Header>Boutique</Accordion.Header>
+            <Accordion.Body>
+              <Container>
+                <Row>
+                  <Col lg={2} md={4} sm={6} xs={12}>
+                    <Form.Label>Country</Form.Label>
+                    <ReactFlagsSelect
+                      countries={[
+                        "IN",
+                        "BH",
+                        "BD",
+                        "BT",
+                        "ID",
+                        "JO",
+                        "MY",
+                        "MV",
+                        "PH",
+                        "SG",
+                        "LK",
+                        "AE",
+                        "QA",
+                        "VN",
+                      ]}
+                      customLabels={{
+                        IN: "India",
+                        BH: "Bahrain",
+                        BD: "Bangladesh",
+                        BT: "Bhutan",
+                        ID: "Indonesia",
+                        JO: "Jordan",
+                        MY: "Malaysia",
+                        MV: "Maldives",
+                        PH: "Philippines",
+                        SG: "Singapore",
+                        LK: "Sri Lanka",
+                        AE: "United Arab Emirates",
+                        QA: "Qatar",
+                        VN: "Vietnam",
+                      }}
+                      selected={selectedFlag}
+                      onSelect={(code) => setSelectedFlag(code)}
+                      placeholder="Select Country"
+                      disabled={save}
+                    />
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                    <Form.Group controlId="groupSelect">
+                      <Form.Label>Group</Form.Label>
+                      <Form.Select
+                        value={group || ""}
+                        onChange={(event) => setGroup(event.target.value)}
+                        disabled={save}
+                      >
+                        <option value="">Select a type</option>
+                        <option value="mensCollection">Men's Collection</option>
+                        <option value="womensCollection">Women's Collection</option>
+                        <option value="indian">Indian Celebrity Designers</option>
+                        <option value="international">International Celebrity Designers</option>
+                        <option value="dealOffer">Deal & Offer</option>
+                        <option value="styleOnRent">Style On rent</option>
+                        <option value="explore">Explore</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <Form.Label>Article</Form.Label>
+                    <Form.Control
+                      maxLength={25}
+                      placeholder="Max 25 characters"
+                      disabled={save}
+                      value={article}
+                      onChange={(e) => setArticle(e.target.value)}
+                    />
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <Form.Group controlId="titleField">
+                      <Form.Label>Title</Form.Label>
+                      <Form.Control
+                        type="text"
+                        value={title}
+                        onChange={handleTitleChange}
+                        placeholder="Max 25 characters"
+                        maxLength={25}
+                        disabled={save}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <Form.Label>Terms</Form.Label>
+                    <Form.Select
+                      disabled={save}
+                      value={terms}
+                      onChange={(e) => setTerms(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Select terms
+                      </option>
+                      <option value="negotiable">Negotiable</option>
+                      <option value="nonNegotiable">Non-negotiable</option>
+                      <option value="priceOnRequest">Price on request</option>
+                    </Form.Select>
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <Form.Label>Condition</Form.Label>
+                    <Form.Select
+                      disabled={save}
+                      value={condition}
+                      onChange={(e) => setCondition(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Select Condition
+                      </option>
+                      <option value="onRent">On Rent</option>
+                      <option value="readyToShip">Ready To Ship</option>
+                      <option value="customize">Customize</option>
+                    </Form.Select>
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <Form.Label>Price</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={price}
+                      inputMode="numeric"
+                      onInput={(e) => {
+                        const target = e.target as HTMLInputElement;
+                        target.value = target.value.replace(/[^0-9]/g, "");
+                      }}
+                      onChange={(e) => setPrice(e.target.value)}
+                      disabled={save}
+                    />
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12} className="mb-3">
+                    <Form.Group controlId="zipCodeInput">
+                      <Form.Label>Zip code/Pincode</Form.Label>
+                      <Form.Control
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={7}
+                        onInput={(e) => {
+                          const target = e.target as HTMLInputElement;
+                          target.value = target.value.replace(/[^0-9]/g, "");
+                        }}
+                        disabled={save}
+                        value={pincode}
+                        onChange={(e) => setPincode(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <Form.Group controlId="areaInput">
+                      <Form.Label>Area</Form.Label>
+                      <Form.Control
+                        type="text"
+                        disabled={save}
+                        value={area}
+                        onChange={handleAreaChange}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={4} md={3} sm={6} xs={12}>
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      maxLength={200}
+                      placeholder="Max 200 characters"
                       disabled={save}
                       value={description}
                       onChange={handleDescriptionChange}
